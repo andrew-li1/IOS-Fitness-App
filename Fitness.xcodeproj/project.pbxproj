@@ -9,12 +9,15 @@
 /* Begin PBXBuildFile section */
 		0259C85B26169C1500293E33 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0259C85A26169C1500293E33 /* AppDelegate.swift */; };
 		0259C85D26169C1500293E33 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0259C85C26169C1500293E33 /* SceneDelegate.swift */; };
-		0259C85F26169C1500293E33 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0259C85E26169C1500293E33 /* ViewController.swift */; };
 		0259C86226169C1500293E33 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0259C86026169C1500293E33 /* Main.storyboard */; };
 		0259C86426169C1700293E33 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0259C86326169C1700293E33 /* Assets.xcassets */; };
 		0259C86726169C1700293E33 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0259C86526169C1700293E33 /* LaunchScreen.storyboard */; };
 		0259C87226169C1700293E33 /* FitnessTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0259C87126169C1700293E33 /* FitnessTests.swift */; };
 		0259C87D26169C1700293E33 /* FitnessUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0259C87C26169C1700293E33 /* FitnessUITests.swift */; };
+		0259C89C2616A5ED00293E33 /* StrengthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0259C89B2616A5ED00293E33 /* StrengthViewController.swift */; };
+		0259C8A12616A60200293E33 /* AddStrengthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0259C8A02616A60200293E33 /* AddStrengthViewController.swift */; };
+		0259C8AC2616A76B00293E33 /* ExerciseTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0259C8AB2616A76B00293E33 /* ExerciseTableViewController.swift */; };
+		0259C8B12616A85C00293E33 /* Exercise.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0259C8B02616A85C00293E33 /* Exercise.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,7 +41,6 @@
 		0259C85726169C1500293E33 /* Fitness.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Fitness.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0259C85A26169C1500293E33 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0259C85C26169C1500293E33 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		0259C85E26169C1500293E33 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		0259C86126169C1500293E33 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		0259C86326169C1700293E33 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0259C86626169C1700293E33 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -49,6 +51,10 @@
 		0259C87826169C1700293E33 /* FitnessUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FitnessUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0259C87C26169C1700293E33 /* FitnessUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FitnessUITests.swift; sourceTree = "<group>"; };
 		0259C87E26169C1700293E33 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0259C89B2616A5ED00293E33 /* StrengthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StrengthViewController.swift; sourceTree = "<group>"; };
+		0259C8A02616A60200293E33 /* AddStrengthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddStrengthViewController.swift; sourceTree = "<group>"; };
+		0259C8AB2616A76B00293E33 /* ExerciseTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseTableViewController.swift; sourceTree = "<group>"; };
+		0259C8B02616A85C00293E33 /* Exercise.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Exercise.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,7 +107,10 @@
 			children = (
 				0259C85A26169C1500293E33 /* AppDelegate.swift */,
 				0259C85C26169C1500293E33 /* SceneDelegate.swift */,
-				0259C85E26169C1500293E33 /* ViewController.swift */,
+				0259C8A02616A60200293E33 /* AddStrengthViewController.swift */,
+				0259C8AB2616A76B00293E33 /* ExerciseTableViewController.swift */,
+				0259C8B02616A85C00293E33 /* Exercise.swift */,
+				0259C89B2616A5ED00293E33 /* StrengthViewController.swift */,
 				0259C86026169C1500293E33 /* Main.storyboard */,
 				0259C86326169C1700293E33 /* Assets.xcassets */,
 				0259C86526169C1700293E33 /* LaunchScreen.storyboard */,
@@ -258,9 +267,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0259C85F26169C1500293E33 /* ViewController.swift in Sources */,
+				0259C89C2616A5ED00293E33 /* StrengthViewController.swift in Sources */,
+				0259C8AC2616A76B00293E33 /* ExerciseTableViewController.swift in Sources */,
 				0259C85B26169C1500293E33 /* AppDelegate.swift in Sources */,
 				0259C85D26169C1500293E33 /* SceneDelegate.swift in Sources */,
+				0259C8A12616A60200293E33 /* AddStrengthViewController.swift in Sources */,
+				0259C8B12616A85C00293E33 /* Exercise.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
