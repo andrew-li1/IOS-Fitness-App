@@ -10,8 +10,10 @@ import UIKit
 
 struct Exercise {
     var name = ""
+    var time: Int
     
-    init (_ n: String) {
+    init (_ n: String, _ t: Int) {
         name = n
+        time = t
     }
 }

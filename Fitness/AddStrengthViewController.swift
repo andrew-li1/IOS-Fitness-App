@@ -14,6 +14,9 @@ protocol AddExerciseDelegate: class {
 class AddStrengthViewController: UIViewController {
     
     @IBOutlet weak var workoutName: UITextField!
+    @IBOutlet weak var workoutTime: UITextField!
+    
+    
     weak var delegate: AddExerciseDelegate?
 
     override func viewDidLoad() {
@@ -36,8 +39,8 @@ class AddStrengthViewController: UIViewController {
         if workoutName.text == "" {
             return nil
         } else {
-            print(workoutName.text!)
-            return Exercise(workoutName.text!)
+//            print(workoutName.text!)
+            return Exercise(workoutName.text!, Int(workoutTime.text!)!)
         }
     }
 
