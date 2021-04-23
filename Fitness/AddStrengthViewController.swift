@@ -36,7 +36,7 @@ class AddStrengthViewController: UIViewController {
     }
     
     func createNewExercise() -> Exercise? {
-        if workoutName.text == "" {
+        if workoutName.text == "" || workoutTime.text == "" {
             return nil
         } else {
 //            print(workoutName.text!)

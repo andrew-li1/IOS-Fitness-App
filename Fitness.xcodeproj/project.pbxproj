@@ -18,6 +18,7 @@
 		0259C8A12616A60200293E33 /* AddStrengthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0259C8A02616A60200293E33 /* AddStrengthViewController.swift */; };
 		0259C8AC2616A76B00293E33 /* ExerciseTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0259C8AB2616A76B00293E33 /* ExerciseTableViewController.swift */; };
 		0259C8B12616A85C00293E33 /* Exercise.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0259C8B02616A85C00293E33 /* Exercise.swift */; };
+		02DA18FE2632749900582165 /* CustomAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02DA18FD2632749900582165 /* CustomAnnotation.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,6 +56,7 @@
 		0259C8A02616A60200293E33 /* AddStrengthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddStrengthViewController.swift; sourceTree = "<group>"; };
 		0259C8AB2616A76B00293E33 /* ExerciseTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseTableViewController.swift; sourceTree = "<group>"; };
 		0259C8B02616A85C00293E33 /* Exercise.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Exercise.swift; sourceTree = "<group>"; };
+		02DA18FD2632749900582165 /* CustomAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAnnotation.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,6 +114,7 @@
 				0259C8B02616A85C00293E33 /* Exercise.swift */,
 				0259C89B2616A5ED00293E33 /* StrengthViewController.swift */,
 				0259C86026169C1500293E33 /* Main.storyboard */,
+				02DA18FD2632749900582165 /* CustomAnnotation.swift */,
 				0259C86326169C1700293E33 /* Assets.xcassets */,
 				0259C86526169C1700293E33 /* LaunchScreen.storyboard */,
 				0259C86826169C1700293E33 /* Info.plist */,
@@ -273,6 +276,7 @@
 				0259C85D26169C1500293E33 /* SceneDelegate.swift in Sources */,
 				0259C8A12616A60200293E33 /* AddStrengthViewController.swift in Sources */,
 				0259C8B12616A85C00293E33 /* Exercise.swift in Sources */,
+				02DA18FE2632749900582165 /* CustomAnnotation.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
