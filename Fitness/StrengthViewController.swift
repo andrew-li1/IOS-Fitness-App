@@ -9,7 +9,7 @@ import UIKit
 import MapKit
 import CoreLocation
 
-class StrengthViewController: UIViewController, MKMapViewDelegate {
+class StrengthViewController: UIViewController {
     
     @IBOutlet weak var exerciseName: UILabel!
     var exercise : Exercise?
@@ -20,6 +20,7 @@ class StrengthViewController: UIViewController, MKMapViewDelegate {
     @IBOutlet weak var pauseButton: UIButton!
     @IBOutlet weak var resetButton: UIButton!
     @IBOutlet weak var timerLabel: UILabel!
+    @IBOutlet weak var locationButton: UIButton!
     
     let locationManager = CLLocationManager()
     let regionInMeters: Double = 500
@@ -35,6 +36,9 @@ class StrengthViewController: UIViewController, MKMapViewDelegate {
  
     var isTimerRunning = false
     var resumeTapped = false
+    var endTapped = false
+    //var didNotPressStartAfterReset = true
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,7 +48,19 @@ class StrengthViewController: UIViewController, MKMapViewDelegate {
         mapView.delegate = self
         //reset()
         setup()
-        // Do any additional setup after loading the view.
+        let loc1 = CLLocation(latitude: 39.954022, longitude: -75.189811)
+        let loc2 = CLLocation(latitude: 39.953143, longitude: -75.181932)
+        let loc3 = CLLocation(latitude: 39.951688, longitude: -75.182866)
+        let loc4 = CLLocation(latitude: 39.952832, longitude: -75.192089)
+
+
+        locationsPassed.append(loc1)
+        locationsPassed.append(loc2)
+        locationsPassed.append(loc3)
+        locationsPassed.append(loc4)
+        self.resetButton.isEnabled = false
+        self.pauseButton.isEnabled = false
+        //Do any additional setup after loading the view.
     }
     
     func setup() {
@@ -53,15 +69,56 @@ class StrengthViewController: UIViewController, MKMapViewDelegate {
         checkLocationServices()
     }
     
-//    func reset() {
-//        removeOverlays()
-//        distanceTraveled = 0
-//        locationsPassed.removeAll()
-//        route = nil
-//    }
+    func addLocationsToArray(_ locations: [CLLocation]) {
+        for location in locations {
+            if !locationsPassed.contains(location) {
+                locationsPassed.append(location)
+            }
+        }
+        print(locations)
+    }
+
+    @IBAction func locationButtonPressed(_ sender: Any) {
+        centerViewOnUserLocation()
+    }
     
+    func startRun() {
+//        reset()
+        
+        isRunning = true
+//        shareButton.isEnabled = false
+//        distanceLabel.isHidden = true
+//        distanceLabel.text = ""
+        
+        locationManager.allowsBackgroundLocationUpdates = true
+        locationManager.startUpdatingLocation() //need to change because we are resuming and pausing
+        //not selecting new initial point
+    }
     
+    func stopRun() {
+        isRunning = false
+//        shareButton.isEnabled = true
+//        distanceLabel.isHidden = false
+        locationManager.allowsBackgroundLocationUpdates = false
+        locationManager.stopUpdatingLocation()
+        displayRoute()
+    }
     
+    func calculateAndDisplayDistance() {
+        var totalDistance = 0.0
+        for i in 1..<locationsPassed.count {
+            let previousLocation = locationsPassed[i-1]
+            let currentLocation = locationsPassed[i]
+            totalDistance += currentLocation.distance(from: previousLocation)
+        }
+        distanceTraveled = totalDistance
+        
+        let displayDistance: String
+        
+        displayDistance = String(format: "Distance Ran: %.2f km", distanceTraveled * 0.001)
+        
+        distance.text = displayDistance
+    }
     
     
     
@@ -73,7 +130,11 @@ class StrengthViewController: UIViewController, MKMapViewDelegate {
     @IBAction func startButtonTapped(_ sender: UIButton) {
         if isTimerRunning == false {
             runTimer()
+            startRun()
             self.startButton.isEnabled = false
+            self.resetButton.isEnabled = true
+            self.pauseButton.isEnabled = true
+            //didNotPressStartAfterReset = false
         }
     }
     
@@ -85,32 +146,65 @@ class StrengthViewController: UIViewController, MKMapViewDelegate {
     
     @IBAction func pauseButtonPressed(_ sender: UIButton) {
         if self.resumeTapped == false {
+            isRunning = false
             timer.invalidate()
             isTimerRunning = false
             self.resumeTapped = true
+            //stopRun()
             self.pauseButton.setTitle("Resume",for: .normal)
         } else {
+            isRunning = true
             runTimer()
             self.resumeTapped = false
             isTimerRunning = true
+            //startRun()
             self.pauseButton.setTitle("Pause",for: .normal)
         }
     }
     
     @IBAction func resetButtonPressed(_ sender: UIButton) {
-        timer.invalidate()
-        seconds = exercise?.time ?? 60
-        timerLabel.text = timeString(time: TimeInterval(seconds))
-        isTimerRunning = false
-        resumeTapped = false
-        self.pauseButton.setTitle("Pause",for: .normal)
-        pauseButton.isEnabled = false
-        startButton.isEnabled = true
+        if self.endTapped == false {
+            timer.invalidate()
+            //seconds = exercise?.time ?? 60
+            //timerLabel.text = timeString(time: TimeInterval(seconds))
+            isTimerRunning = false
+            resumeTapped = false
+            self.pauseButton.setTitle("Pause",for: .normal)
+            pauseButton.isEnabled = false
+            startButton.isEnabled = true
+            stopRun()
+            self.endTapped = true
+            self.resetButton.setTitle("Reset",for: .normal)
+            self.pauseButton.isEnabled = true
+            self.startButton.isEnabled = false
+        } else {
+            timer.invalidate()
+            seconds = exercise?.time ?? 60
+            timerLabel.text = timeString(time: TimeInterval(seconds))
+            isTimerRunning = false
+            resumeTapped = false
+            self.pauseButton.setTitle("Pause",for: .normal)
+            pauseButton.isEnabled = false
+            startButton.isEnabled = true
+            self.endTapped = false
+            self.resetButton.setTitle("End",for: .normal)
+            //didNotPressStartAfterReset = true
+            self.resetButton.isEnabled = false
+            self.startButton.isEnabled = true
+            reset()
+            let displayDistance = String(format: "Distance Ran: %.2f km", distanceTraveled * 0.001)
+            
+            distance.text = displayDistance
+        }
     }
     
     @objc func updateTimer() {
         if seconds < 1 {
             timer.invalidate()
+            self.endTapped = true
+            self.resetButton.setTitle("Reset",for: .normal)
+            self.pauseButton.isEnabled = false
+            stopRun()
             //Send alert to indicate time's up.
         } else {
             seconds -= 1
@@ -131,7 +225,6 @@ class StrengthViewController: UIViewController, MKMapViewDelegate {
     
     
     
-    
 
     /*
     // MARK: - Navigation
@@ -145,6 +238,84 @@ class StrengthViewController: UIViewController, MKMapViewDelegate {
 
 }
 
+extension StrengthViewController: MKMapViewDelegate {
+    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+        let renderer = MKPolylineRenderer(polyline: overlay as! MKPolyline)
+        renderer.strokeColor = .systemBlue
+        renderer.lineWidth = 5
+        renderer.alpha = 0.5
+        
+        return renderer
+    }
+    
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        if let annotation = annotation as? CustomAnnotation {
+            let id = "pin"
+            let view = MKPinAnnotationView(annotation: annotation, reuseIdentifier: id)
+            view.canShowCallout = true
+            view.animatesDrop = true
+            view.pinTintColor = annotation.coordinateType == .start ? .green : .red
+            view.calloutOffset = CGPoint(x: -8, y: -3)
+            
+            return view
+        }
+        return nil
+    }
+    
+    func displayRoute() {
+        
+        var routeCoordinates = [CLLocationCoordinate2D]()
+        for location in locationsPassed {
+            routeCoordinates.append(location.coordinate)
+        }
+        route = MKPolyline(coordinates: routeCoordinates, count: routeCoordinates.count)
+        guard let route = route else { return }
+        mapView.addOverlay(route)
+        mapView.setVisibleMapRect(route.boundingMapRect, edgePadding: UIEdgeInsets(top: 200, left: 50, bottom: 50, right: 50), animated: true)
+        
+        calculateAndDisplayDistance()
+        setupAnnotations()
+    }
+    
+    func displayRouteWhileRunning() {
+
+        var routeCoordinates = [CLLocationCoordinate2D]()
+        for location in locationsPassed {
+            routeCoordinates.append(location.coordinate)
+        }
+        route = MKPolyline(coordinates: routeCoordinates, count: routeCoordinates.count)
+        guard let route = route else { return }
+        mapView.addOverlay(route)
+        mapView.setVisibleMapRect(route.boundingMapRect, edgePadding: UIEdgeInsets(top: 200, left: 50, bottom: 50, right: 50), animated: true)
+
+        calculateAndDisplayDistance()
+        //setupAnnotations()
+    }
+    
+    func setupAnnotations() {
+        guard let startLocation = locationsPassed.first?.coordinate, let endLocation = locationsPassed.last?.coordinate, locationsPassed.count > 1 else {
+            return
+        }
+        let startAnnotation = CustomAnnotation(coordinateType: .start, coordinate: startLocation)
+        let endAnnotation = CustomAnnotation(coordinateType: .end, coordinate: endLocation)
+        
+        mapView.addAnnotation(startAnnotation)
+        mapView.addAnnotation(endAnnotation)
+    }
+    
+    func removeOverlays() {
+        mapView.removeAnnotations(mapView.annotations)
+        mapView.removeOverlays(mapView.overlays)
+    }
+    
+    func reset() {
+        removeOverlays()
+        distanceTraveled = 0
+        locationsPassed.removeAll()
+        route = nil
+    }
+}
+
 
 extension StrengthViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
@@ -152,9 +323,11 @@ extension StrengthViewController: CLLocationManagerDelegate {
             return
         }
         
-//        if isRunning {
-//            addLocationsToArray(locations)
-//        }
+        if isRunning {
+            print("isRunning")
+            addLocationsToArray(locations)
+            displayRouteWhileRunning()
+        }
         
         let region = MKCoordinateRegion.init(center: location.coordinate, latitudinalMeters: regionInMeters, longitudinalMeters: regionInMeters)
         mapView.setRegion(region, animated: true)

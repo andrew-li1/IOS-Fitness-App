@@ -118,7 +118,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="26"/>
                                 <state key="normal" title="Pause">
-                                    <color key="titleColor" systemColor="systemPinkColor"/>
+                                    <color key="titleColor" systemColor="systemYellowColor"/>
                                 </state>
                                 <connections>
                                     <action selector="pauseButtonPressed:" destination="jNE-yC-1Vy" eventType="touchUpInside" id="oYg-yW-p9m"/>
@@ -139,8 +139,8 @@
                                 <rect key="frame" x="261" y="754" width="102" height="49"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="26"/>
-                                <state key="normal" title="Reset">
-                                    <color key="titleColor" systemColor="systemYellowColor"/>
+                                <state key="normal" title="End">
+                                    <color key="titleColor" systemColor="systemRedColor"/>
                                 </state>
                                 <connections>
                                     <action selector="resetButtonPressed:" destination="jNE-yC-1Vy" eventType="touchUpInside" id="Wvu-v6-JOC"/>
@@ -161,12 +161,20 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="p3g-VI-PZ0">
-                                <rect key="frame" x="54" y="159" width="283" height="25"/>
+                                <rect key="frame" x="16" y="159" width="358" height="25"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="25"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6LI-TV-AD7">
+                                <rect key="frame" x="180" y="653" width="30" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="LOC"/>
+                                <connections>
+                                    <action selector="locationButtonPressed:" destination="jNE-yC-1Vy" eventType="touchUpInside" id="iwN-8f-39j"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="AKk-gK-t7M"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -175,6 +183,7 @@
                     <connections>
                         <outlet property="distance" destination="p3g-VI-PZ0" id="SEO-Yu-wgY"/>
                         <outlet property="exerciseName" destination="CXm-gk-Zck" id="FrY-Kf-Ux2"/>
+                        <outlet property="locationButton" destination="6LI-TV-AD7" id="TLx-qO-4Z8"/>
                         <outlet property="mapView" destination="gao-VD-l6j" id="dvr-dz-VI5"/>
                         <outlet property="pauseButton" destination="48q-Dq-k80" id="pwc-C8-Fs3"/>
                         <outlet property="resetButton" destination="ozZ-ue-3hd" id="9In-CF-WPg"/>
@@ -230,8 +239,8 @@
         <systemColor name="systemGreenColor">
             <color red="0.20392156862745098" green="0.7803921568627451" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
-        <systemColor name="systemPinkColor">
-            <color red="1" green="0.17647058823529413" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        <systemColor name="systemRedColor">
+            <color red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemYellowColor">
             <color red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
