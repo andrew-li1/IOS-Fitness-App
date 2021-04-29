@@ -32,6 +32,7 @@ class StrengthViewController: UIViewController {
     var distanceTraveled = 0.0
     
     var seconds: Int = 60
+    var targetDistance: Double = 0.0
     var timer = Timer()
  
     var isTimerRunning = false
@@ -44,9 +45,10 @@ class StrengthViewController: UIViewController {
         super.viewDidLoad()
         exerciseName.text = exercise?.name
         seconds = exercise?.time ?? 60
+        targetDistance = exercise?.distance ?? 0.0
         timerLabel.text = timeString(time: TimeInterval(seconds))
         mapView.delegate = self
-        //reset()
+        reset()
         setup()
         let loc1 = CLLocation(latitude: 39.954022, longitude: -75.189811)
         let loc2 = CLLocation(latitude: 39.953143, longitude: -75.181932)
@@ -83,12 +85,7 @@ class StrengthViewController: UIViewController {
     }
     
     func startRun() {
-//        reset()
-        
         isRunning = true
-//        shareButton.isEnabled = false
-//        distanceLabel.isHidden = true
-//        distanceLabel.text = ""
         
         locationManager.allowsBackgroundLocationUpdates = true
         locationManager.startUpdatingLocation() //need to change because we are resuming and pausing
@@ -97,8 +94,6 @@ class StrengthViewController: UIViewController {
     
     func stopRun() {
         isRunning = false
-//        shareButton.isEnabled = true
-//        distanceLabel.isHidden = false
         locationManager.allowsBackgroundLocationUpdates = false
         locationManager.stopUpdatingLocation()
         displayRoute()
@@ -112,6 +107,10 @@ class StrengthViewController: UIViewController {
             totalDistance += currentLocation.distance(from: previousLocation)
         }
         distanceTraveled = totalDistance
+        
+        if distanceTraveled * 0.001 >= Double(targetDistance) {
+            distance.backgroundColor = UIColor.systemGreen
+        }
         
         let displayDistance: String
         
@@ -289,7 +288,6 @@ extension StrengthViewController: MKMapViewDelegate {
         mapView.setVisibleMapRect(route.boundingMapRect, edgePadding: UIEdgeInsets(top: 200, left: 50, bottom: 50, right: 50), animated: true)
 
         calculateAndDisplayDistance()
-        //setupAnnotations()
     }
     
     func setupAnnotations() {
@@ -313,6 +311,8 @@ extension StrengthViewController: MKMapViewDelegate {
         distanceTraveled = 0
         locationsPassed.removeAll()
         route = nil
+        distance.backgroundColor = UIColor.systemRed
+        distance.text = "Distance Ran: 0.00 km"
     }
 }
 
@@ -343,29 +343,20 @@ extension StrengthViewController: CLLocationManagerDelegate {
     
     func centerViewOnUserLocation() {
         if let location = locationManager.location?.coordinate {
-            //enableButtons()
-            //errorView.isHidden = true
             let region = MKCoordinateRegion.init(center: location, latitudinalMeters: regionInMeters, longitudinalMeters: regionInMeters)
             mapView.setRegion(region, animated: true)
             mapView.showsUserLocation = true
         } else {
-//            disableAllButtons()
             locationManager.stopUpdatingLocation()
-//            errorView.isHidden = false
-//            errorView.setErrorMessage("Location not found")
         }
     }
     
     func checkLocationServices() {
         if CLLocationManager.locationServicesEnabled() {
-            //errorView.isHidden = true
             setupLocationManager()
             checkLocationAuthorization()
         } else {
             print("bad")
-//            disableAllButtons()
-//            errorView.isHidden = false
-//            errorView.setErrorMessage("Please enable Location Services")
         }
     }
     
@@ -379,7 +370,6 @@ extension StrengthViewController: CLLocationManagerDelegate {
         switch manager.authorizationStatus {
         case .authorizedAlways:
             print("authorized")
-            //errorView.isHidden = true
             locationManager.requestLocation()
             centerViewOnUserLocation()
             break
@@ -388,11 +378,7 @@ extension StrengthViewController: CLLocationManagerDelegate {
             locationManager.requestAlwaysAuthorization()
         default:
             print("not authorized")
-            //disableAllButtons()
-            //Alert error
             locationManager.stopUpdatingLocation()
-//            errorView.isHidden = false
-//            errorView.setErrorMessageLocationAlways()
             break
         }
     }

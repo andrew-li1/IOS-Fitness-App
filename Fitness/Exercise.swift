@@ -11,9 +11,11 @@ import UIKit
 struct Exercise {
     var name = ""
     var time: Int
+    var distance: Double
     
-    init (_ n: String, _ t: Int) {
+    init (_ n: String, _ t: Int, _ d: Double) {
         name = n
         time = t
+        distance = d
     }
 }

@@ -7,21 +7,66 @@
 
 import UIKit
 
-protocol AddExerciseDelegate: class {
+protocol AddExerciseDelegate: AnyObject {
     func didCreate(_ exercise: Exercise)
 }
 
-class AddStrengthViewController: UIViewController {
+class AddStrengthViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
+    let minutesArray = Array(0...59)
+    let secondsArray = Array(0...59)
+    
+    var minutes: Int = 0
+    var seconds: Int = 0
+    var time = 0
+    
+    
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 2
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        if component == 0 {
+            return minutesArray.count
+        } else {
+            return secondsArray.count
+        }
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        if component == 0 {
+            return String(minutesArray[row])
+        } else {
+            return String(secondsArray[row])
+        }
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        if component == 0 {
+            minutes = minutesArray[row]
+        } else {
+            seconds = secondsArray[row]
+        }
+        time = 60 * minutes + seconds
+        print(time)
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, widthForComponent component: Int) -> CGFloat {
+        return 100.0
+    }
+    
     
     @IBOutlet weak var workoutName: UITextField!
-    @IBOutlet weak var workoutTime: UITextField!
+    @IBOutlet weak var workoutDistance: UITextField!
+    @IBOutlet weak var timePicker: UIPickerView!
     
     
     weak var delegate: AddExerciseDelegate?
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        timePicker.delegate = self
+        timePicker.dataSource = self
         // Do any additional setup after loading the view.
     }
     
@@ -36,11 +81,15 @@ class AddStrengthViewController: UIViewController {
     }
     
     func createNewExercise() -> Exercise? {
-        if workoutName.text == "" || workoutTime.text == "" {
+        if workoutName.text == "" || workoutDistance.text == "" || time == 0 {
             return nil
         } else {
-//            print(workoutName.text!)
-            return Exercise(workoutName.text!, Int(workoutTime.text!)!)
+            if let workoutDistance = Double(workoutDistance.text!) {
+                return Exercise(workoutName.text!, time, workoutDistance)
+            } else {
+                return nil
+            }
+            
         }
     }
 
