@@ -18,6 +18,7 @@ class AddStrengthViewController: UIViewController, UIPickerViewDelegate, UIPicke
     var minutes: Int = 0
     var seconds: Int = 0
     var time = 0
+    var test = 0
     
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
