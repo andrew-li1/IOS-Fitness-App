@@ -7,6 +7,7 @@
 
 import UIKit
 import FirebaseAuth
+import FirebaseDatabase
 
 class AddUserViewController: UIViewController {
     
@@ -15,13 +16,20 @@ class AddUserViewController: UIViewController {
     @IBOutlet weak var passwordText: UITextField!
     @IBOutlet weak var errorLabel: UILabel!
     
-    
-    
+    let usersRef = Database.database().reference(withPath: "users")
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
         errorLabel.isHidden = true
-
+        
+        Auth.auth().addStateDidChangeListener { auth, user in
+            if let u = user {
+                print(u.email)
+                print("next")
+                self.usersRef.child("\(u.uid)/email").setValue(u.email)
+            }
+        }
         // Do any additional setup after loading the view.
     }
     
@@ -33,14 +41,13 @@ class AddUserViewController: UIViewController {
     @IBAction func createUser(_ sender: Any) {
         let email = emailText.text!
         let password = passwordText.text!
-        
-        
         Auth.auth().createUser(withEmail: email, password: password, completion: {(result, err) in
             if err != nil {
                 self.errorLabel.isHidden = false
                 print(err!)
             } else {
                 print("created user")
+                
                 self.dismiss(animated: true, completion: nil)
             }
         })

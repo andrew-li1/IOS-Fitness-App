@@ -6,24 +6,39 @@
 //
 
 import UIKit
+import Firebase
 
-class ExerciseTableViewController: UITableViewController, AddExerciseDelegate {
-    func didCreate(_ exercise: Exercise) {
-        dismiss(animated: true, completion: nil)
-        print(exercise.name)
-        exercises.append(exercise)
-        exercises = exercises.sorted {$0.name.lowercased() < $1.name.lowercased()}
-        self.tableView.reloadData()
-    }
+class ExerciseTableViewController: UITableViewController {
+//    func didCreate(_ exercise: Exercise) {
+//        dismiss(animated: true, completion: nil)
+//        print(exercise.name)
+//        exercises.append(exercise)
+//        exercises = exercises.sorted {$0.name.lowercased() < $1.name.lowercased()}
+//        self.tableView.reloadData()
+//    }
     
     
-    
+    var user: User?
     var exercises = [Exercise]()
     var currentExercise: Exercise?
+    let usersRef = Database.database().reference(withPath: "users")
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        if let user = Auth.auth().currentUser {
+            let exercisesRef = usersRef.child(user.uid).child("currentRuns")
+            exercisesRef.observe(.value, with: { snapshot in
+                for child in snapshot.children {
+                    if let exercise = Exercise(snapshot: child as! DataSnapshot){
+                        self.exercises.append(exercise)
+                        self.exercises = self.exercises.sorted {$0.name.lowercased() < $1.name.lowercased()}
+                    }
+                }
+                self.tableView.reloadData()
+            })
+        }
+        
     }
 
     @IBAction func segueToAddStrength(_ sender: Any) {
@@ -60,12 +75,12 @@ class ExerciseTableViewController: UITableViewController, AddExerciseDelegate {
         if let svc = segue.destination as? StrengthViewController {
             svc.exercise = currentExercise!
         }
-        if let nvc = segue.destination as? UINavigationController {
-            let asvc = nvc.topViewController as? AddStrengthViewController
-            if let vc = asvc {
-                vc.delegate = self
-            }
-        }
+//        if let nvc = segue.destination as? UINavigationController {
+//            let asvc = nvc.topViewController as? AddStrengthViewController
+//            if let vc = asvc {
+//                vc.delegate = self
+//            }
+//        }
     }
     
     // MARK: - Swipe to delete functionality

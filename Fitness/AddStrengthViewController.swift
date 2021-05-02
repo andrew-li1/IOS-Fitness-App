@@ -6,10 +6,11 @@
 //
 
 import UIKit
+import Firebase
 
-protocol AddExerciseDelegate: AnyObject {
-    func didCreate(_ exercise: Exercise)
-}
+//protocol AddExerciseDelegate: AnyObject {
+//    func didCreate(_ exercise: Exercise)
+//}
 
 class AddStrengthViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
     let minutesArray = Array(0...59)
@@ -19,7 +20,10 @@ class AddStrengthViewController: UIViewController, UIPickerViewDelegate, UIPicke
     var seconds: Int = 0
     var time = 0
     var test = 0
-    
+    var userUID : String? = nil
+    var activeUser: User? = nil
+    let usersRef = Database.database().reference(withPath: "users")
+
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 2
@@ -61,7 +65,7 @@ class AddStrengthViewController: UIViewController, UIPickerViewDelegate, UIPicke
     @IBOutlet weak var timePicker: UIPickerView!
     
     
-    weak var delegate: AddExerciseDelegate?
+//    weak var delegate: AddExerciseDelegate?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -69,6 +73,19 @@ class AddStrengthViewController: UIViewController, UIPickerViewDelegate, UIPicke
         timePicker.delegate = self
         timePicker.dataSource = self
         // Do any additional setup after loading the view.
+        
+        self.activeUser = Auth.auth().currentUser
+        
+//        Auth.auth().addStateDidChangeListener { auth, user in
+//            if let user = user {
+//                if (self.activeUser != user) {
+//                    self.activeUser = user
+//                    print("new User")
+//                } else {
+//                    print("same User")
+//                }
+//            }
+//        }
     }
     
     @IBAction func cancel(_ sender: Any) {
@@ -77,7 +94,11 @@ class AddStrengthViewController: UIViewController, UIPickerViewDelegate, UIPicke
     
     @IBAction func save(_ sender: Any) {
         if let exercise = createNewExercise(){
-            self.delegate?.didCreate(exercise)
+//            self.delegate?.didCreate(exercise)
+            if let user = self.activeUser {
+                self.usersRef.child(user.uid).child("currentRuns").childByAutoId().setValue(exercise.toAnyObject())
+                dismiss(animated: true, completion: nil)
+            }
         }
     }
     
