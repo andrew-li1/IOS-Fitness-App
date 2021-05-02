@@ -9,13 +9,6 @@ import UIKit
 import Firebase
 
 class ExerciseTableViewController: UITableViewController {
-//    func didCreate(_ exercise: Exercise) {
-//        dismiss(animated: true, completion: nil)
-//        print(exercise.name)
-//        exercises.append(exercise)
-//        exercises = exercises.sorted {$0.name.lowercased() < $1.name.lowercased()}
-//        self.tableView.reloadData()
-//    }
     
     
     var user: User?
@@ -29,6 +22,7 @@ class ExerciseTableViewController: UITableViewController {
         if let user = Auth.auth().currentUser {
             let exercisesRef = usersRef.child(user.uid).child("currentRuns")
             exercisesRef.observe(.value, with: { snapshot in
+                self.exercises = [Exercise]()
                 for child in snapshot.children {
                     if let exercise = Exercise(snapshot: child as! DataSnapshot){
                         self.exercises.append(exercise)
@@ -41,6 +35,16 @@ class ExerciseTableViewController: UITableViewController {
         
     }
 
+    @IBAction func logOutPressed(_ sender: Any) {
+        do {
+            try Auth.auth().signOut()
+            self.dismiss(animated: true, completion: nil)
+        } catch (_) {
+            print("Log out error")
+        }
+    }
+    
+    
     @IBAction func segueToAddStrength(_ sender: Any) {
         self.performSegue(withIdentifier: "addStrength", sender: self)
     }
@@ -75,12 +79,6 @@ class ExerciseTableViewController: UITableViewController {
         if let svc = segue.destination as? StrengthViewController {
             svc.exercise = currentExercise!
         }
-//        if let nvc = segue.destination as? UINavigationController {
-//            let asvc = nvc.topViewController as? AddStrengthViewController
-//            if let vc = asvc {
-//                vc.delegate = self
-//            }
-//        }
     }
     
     // MARK: - Swipe to delete functionality

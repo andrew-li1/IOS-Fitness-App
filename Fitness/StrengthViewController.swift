@@ -128,6 +128,7 @@ class StrengthViewController: UIViewController {
     
     @IBAction func startButtonTapped(_ sender: UIButton) {
         if isTimerRunning == false {
+            centerViewOnUserLocation()
             runTimer()
             startRun()
             self.startButton.isEnabled = false
@@ -324,7 +325,6 @@ extension StrengthViewController: CLLocationManagerDelegate {
         }
         
         if isRunning {
-            print("isRunning")
             addLocationsToArray(locations)
             displayRouteWhileRunning()
         }

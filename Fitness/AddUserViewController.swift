@@ -25,8 +25,6 @@ class AddUserViewController: UIViewController {
         
         Auth.auth().addStateDidChangeListener { auth, user in
             if let u = user {
-                print(u.email)
-                print("next")
                 self.usersRef.child("\(u.uid)/email").setValue(u.email)
             }
         }

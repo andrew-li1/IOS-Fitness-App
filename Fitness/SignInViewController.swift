@@ -20,8 +20,16 @@ class SignInViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         errorMessage.isHidden = true
-
+        emailText.text = ""
+        passwordText.text = ""
         // Do any additional setup after loading the view.
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+            super.viewWillAppear(animated)
+            errorMessage.isHidden = true
+            emailText.text = ""
+            passwordText.text = ""
     }
     
     @IBAction func signInButtonPressed(_ sender: Any) {

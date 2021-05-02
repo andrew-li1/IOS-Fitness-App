@@ -8,9 +8,6 @@
 import UIKit
 import Firebase
 
-//protocol AddExerciseDelegate: AnyObject {
-//    func didCreate(_ exercise: Exercise)
-//}
 
 class AddStrengthViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
     let minutesArray = Array(0...59)
@@ -65,7 +62,6 @@ class AddStrengthViewController: UIViewController, UIPickerViewDelegate, UIPicke
     @IBOutlet weak var timePicker: UIPickerView!
     
     
-//    weak var delegate: AddExerciseDelegate?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -75,17 +71,6 @@ class AddStrengthViewController: UIViewController, UIPickerViewDelegate, UIPicke
         // Do any additional setup after loading the view.
         
         self.activeUser = Auth.auth().currentUser
-        
-//        Auth.auth().addStateDidChangeListener { auth, user in
-//            if let user = user {
-//                if (self.activeUser != user) {
-//                    self.activeUser = user
-//                    print("new User")
-//                } else {
-//                    print("same User")
-//                }
-//            }
-//        }
     }
     
     @IBAction func cancel(_ sender: Any) {
@@ -94,7 +79,6 @@ class AddStrengthViewController: UIViewController, UIPickerViewDelegate, UIPicke
     
     @IBAction func save(_ sender: Any) {
         if let exercise = createNewExercise(){
-//            self.delegate?.didCreate(exercise)
             if let user = self.activeUser {
                 self.usersRef.child(user.uid).child("currentRuns").childByAutoId().setValue(exercise.toAnyObject())
                 dismiss(animated: true, completion: nil)
